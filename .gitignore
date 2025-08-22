@@ -1,0 +1,4 @@
+.vscode
+build/
+tmp/
+include/terrain_model/path_management/package_path.h
