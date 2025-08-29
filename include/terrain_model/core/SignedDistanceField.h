@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "ocs2_switched_model_interface/core/SwitchedModel.h"
+#include <terrain_model/core/Types.hpp>
 
 namespace switched_model
 {
