@@ -21,10 +21,23 @@ namespace terrain_model
       SignedDistanceField(const SignedDistanceField&) = delete;
       SignedDistanceField& operator=(const SignedDistanceField&) = delete;
       virtual SignedDistanceField* clone() const = 0;
+
+      /** Get closest distance from queried position to terrain model 
+       * @param [in] position: 3D query position in world frame
+      */
       virtual ocs2::scalar_t value(const vector3_t& position) const = 0;
+
+      /** Get gradient from queried position to terrain model 
+       * @param [in] position: 3D query position in world frame
+      */
       virtual Eigen::Vector3d derivative(const vector3_t& position) const = 0;
-      virtual std::pair<ocs2::scalar_t, vector3_t> valueAndDerivative(const vector3_t& position) const = 0;
+
+      /** Get closest distance and its gradient from queried position to terrain model 
+       * @param [in] position: 3D query position in world frame
+      */
+      virtual std::pair<ocs2::scalar_t, vector3_t> valueAndDerivative(
+        const vector3_t& position) const = 0;
   };
-} // namespace terrain_model
+}; // namespace terrain_model
 
 #endif

@@ -1,4 +1,5 @@
-#include <terrain_model/TerrainModel.hpp>
+
+#include <terrain_model/core/TerrainModel.hpp>
 
 namespace terrain_model
 {

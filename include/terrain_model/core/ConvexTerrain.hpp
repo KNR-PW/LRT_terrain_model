@@ -115,9 +115,7 @@ namespace terrain_model
 				 *  The last point is connected to the first point
 				 */
       	std::vector<vector2_t> boundary_;
-    };
-
-    
-} // namespace terrain_model
+    };  
+}; // namespace terrain_model
 
 #endif

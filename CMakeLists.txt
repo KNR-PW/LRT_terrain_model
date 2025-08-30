@@ -38,7 +38,11 @@ endforeach()
 add_library(${PROJECT_NAME}
   src/core/ConvexTerrain.cpp
   src/core/TerrainPlane.cpp
-  src/TerrainModel.cpp
+  src/core/TerrainModel.cpp
+
+  src/planar_model/PlanarSignedDistanceField.cpp
+  src/planar_model/PlanarTerrainModel.cpp
+  
 )
 
 target_include_directories(${PROJECT_NAME}
