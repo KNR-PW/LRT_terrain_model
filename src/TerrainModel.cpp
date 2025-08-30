@@ -1,8 +1,9 @@
-#include <terrain_model/TerrainModel.h>
+#include <terrain_model/TerrainModel.hpp>
 
 namespace terrain_model
 {
 
+  using namespace ocs2;
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
@@ -16,7 +17,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  ConvexTerrain getConvexTerrainAtPositionInWorld(const vector3_t& positionInWorld) const
+  ConvexTerrain TerrainModel::getConvexTerrainAtPositionInWorld(const vector3_t& positionInWorld) const
   {
     return getConvexTerrainAtPositionInWorld(positionInWorld, 
       [](const vector3_t&) { return 0.0; });
@@ -25,7 +26,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  ConvexTerrain getConvexTerrainAtPositionInWorld(const vector3_t& positionInWorld,
+  ConvexTerrain TerrainModel::getConvexTerrainAtPositionInWorld(const vector3_t& positionInWorld,
     std::function<scalar_t(const vector3_t&)>
     penaltyFunction) const
   {
@@ -36,7 +37,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  const SignedDistanceField* getSignedDistanceField() const 
+  const SignedDistanceField* TerrainModel::getSignedDistanceField() const 
   { 
     return nullptr; 
   }

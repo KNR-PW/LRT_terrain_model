@@ -1,4 +1,5 @@
-#include <terrain_model/core/ConvexTerrain.h>
+
+#include <terrain_model/core/ConvexTerrain.hpp>
 
 namespace terrain_model
 {
@@ -52,7 +53,7 @@ namespace terrain_model
   /******************************************************************************************************/
 	void ConvexTerrain::addWorldBoundryPoint(const vector2_t& newPointWorld)
   {
-    boundary_.push_back(plane_.getOrientation() * newPointWorld);
+    boundary_.push_back(plane_.getOrientation().block<2, 2>(0, 0) * newPointWorld);
   }
 
   /******************************************************************************************************/
@@ -60,7 +61,7 @@ namespace terrain_model
   /******************************************************************************************************/
 	void ConvexTerrain::addWorldBoundryPoint(scalar_t xWorld, scalar_t yWorld)
   {
-    boundary_.push_back(plane_.getOrientation() * vector2_t{xWorld, yWorld});
+    boundary_.push_back(plane_.getOrientation().block<2, 2>(0, 0) * vector2_t{xWorld, yWorld});
   }
   
   /******************************************************************************************************/
@@ -68,7 +69,7 @@ namespace terrain_model
   /******************************************************************************************************/
 	const vector2_t& ConvexTerrain::getBoundryPoint(size_t currentPointIndex)
   {
-  	return boundary[currentPointIndex % boundary.size()]; // wrap around
+  	return boundary_[currentPointIndex % boundary_.size()]; // wrap around
   }
   
   /******************************************************************************************************/
@@ -76,7 +77,7 @@ namespace terrain_model
   /******************************************************************************************************/
 	const vector2_t& ConvexTerrain::getNextBoundryPoint(size_t currentPointIndex)
   {
-  	return boundary[(currentPointIndex + 1) % boundary.size()]; // next point with wrap around
+  	return boundary_[(currentPointIndex + 1) % boundary_.size()]; // next point with wrap around
   }
   
   /******************************************************************************************************/
@@ -97,7 +98,7 @@ namespace terrain_model
         }
     };
     bool isInside = true;
-    for (int i = 0; i < boundary.size(); i++)
+    for (int i = 0; i < boundary_.size(); i++)
     {
         const auto& p1 = getBoundryPoint(i);
         const auto& p2 = getNextBoundryPoint(i);
@@ -126,7 +127,7 @@ namespace terrain_model
   /******************************************************************************************************/
   vector3_t ConvexTerrain::projectToConvex3dPolygon(const vector3_t& queryPoint)
   {
-    const vector3_t local_p = plane.getPositionInTerrainFrameFromPositionInWorld(queryPoint);
+    const vector3_t local_p = plane_.getPositionInTerrainFrameFromPositionInWorld(queryPoint);
     const vector2_t local_2d_p(local_p.x(), local_p.y());
     const auto distance2ImagePair = projectToConvex2dPolygonBoundary(local_2d_p);
     vector3_t local_q;
@@ -140,6 +141,6 @@ namespace terrain_model
         // the 2d local point is outside polygon
         local_q << distance2ImagePair.second, 0.0;
     }
-    return plane.getPositionInWorldFrameFromPositionInTerrain(local_q);
+    return plane_.getPositionInWorldFrameFromPositionInTerrain(local_q);
   }
 } // namespace terrain_model

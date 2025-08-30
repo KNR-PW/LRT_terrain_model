@@ -4,14 +4,15 @@
 
 #include <gtest/gtest.h>
 
-#include "ocs2_switched_model_interface/core/Rotations.h"
-#include "ocs2_switched_model_interface/terrain/ConvexTerrain.h"
+#include <terrain_model/core/ConvexTerrain.hpp>
+#include "Rotations.hpp"
 
-using namespace switched_model;
+using namespace ocs2;
+using namespace terrain_model;
 
 TerrainPlane getRandomTerrain() {
   vector3_t eulerXYZ = vector3_t::Random();
-  return {vector3_t::Random(), rotationMatrixBaseToOrigin(eulerXYZ)};
+  return TerrainPlane(vector3_t::Random(), rotationMatrixBaseToOrigin(eulerXYZ));
 }
 
 std::vector<vector2_t> getRandomboundary(size_t N) {
@@ -21,6 +22,7 @@ std::vector<vector2_t> getRandomboundary(size_t N) {
   }
   return boundary;
 }
+
 
 TEST(TestConvexTerrain, projectToConvex2dPolygonBoundary_signTest) {
   constexpr size_t N = 3;
@@ -57,9 +59,10 @@ TEST(TestConvexTerrain, projectToConvex2dPolygonBoundary_signTest) {
       return lambda(0) * boundary[0] + lambda(1) * boundary[1];
     }();
 
-    EXPECT_NEAR(projectToConvex2dPolygonBoundary(boundary, onPoint).first, 0.0, 1e-9);
-    EXPECT_LT(projectToConvex2dPolygonBoundary(boundary, insidePoint).first, 0.0);
-    EXPECT_GT(projectToConvex2dPolygonBoundary(boundary, outsidePoint).first, 0.0);
+    ConvexTerrain terrain(getRandomTerrain(), boundary);
+    EXPECT_NEAR(terrain.projectToConvex2dPolygonBoundary(onPoint).first, 0.0, 1e-9);
+    EXPECT_LT(terrain.projectToConvex2dPolygonBoundary(insidePoint).first, 0.0);
+    EXPECT_GT(terrain.projectToConvex2dPolygonBoundary(outsidePoint).first, 0.0);
   }
 }
 
@@ -73,8 +76,9 @@ TEST(TestConvexTerrain, projectToConvex2dPolygonBoundary_valueTest) {
     const scalar_array_t insidePointDists{-std::abs(insidePoint.x() - 1.0), -std::abs(insidePoint.x() + 1.0),
                                           -std::abs(insidePoint.y() - 1.0), -std::abs(insidePoint.y() + 1.0)};
     const auto minDist = std::max_element(insidePointDists.cbegin(), insidePointDists.cend());
-
-    const auto distance2ImagePair = projectToConvex2dPolygonBoundary(boundary, insidePoint);
+    
+    ConvexTerrain terrain(getRandomTerrain(), boundary);
+    const auto distance2ImagePair = terrain.projectToConvex2dPolygonBoundary(insidePoint);
     const auto computedDist = (distance2ImagePair.first > 0.0) ? std::sqrt(distance2ImagePair.first) : -std::sqrt(-distance2ImagePair.first);
 
     EXPECT_NEAR(computedDist, *minDist, 1e-9);
@@ -82,15 +86,16 @@ TEST(TestConvexTerrain, projectToConvex2dPolygonBoundary_valueTest) {
 }
 
 TEST(TestConvexTerrain, projectToConvexPolygon) {
-  ConvexTerrain convexTerrain;
-  convexTerrain.plane = getRandomTerrain();
-  convexTerrain.boundary = {vector2_t(-0.5, -0.5), vector2_t(-0.5, 0.5), vector2_t(0.5, 0.5), vector2_t(0.5, -0.5)};
+  
+  TerrainPlane plane = getRandomTerrain();
+  std::vector<vector2_t> boundary = {vector2_t(-0.5, -0.5), vector2_t(-0.5, 0.5), vector2_t(0.5, 0.5), vector2_t(0.5, -0.5)};
+  ConvexTerrain convexTerrain(plane, boundary);
 
   // plane center point
   {
-    const vector3_t point = convexTerrain.plane.positionInWorld;
-    const vector3_t image = projectToConvex3dPolygon(convexTerrain, point);
-    const vector3_t local_image = positionInTerrainFrameFromPositionInWorld(image, convexTerrain.plane);
+    const vector3_t point = plane.getPosition();
+    const vector3_t image = convexTerrain.projectToConvex3dPolygon(point);
+    const vector3_t local_image = plane.getPositionInTerrainFrameFromPositionInWorld(image);
 
     EXPECT_NEAR(local_image.x(), 0.0, 1e-9);
     EXPECT_NEAR(local_image.y(), 0.0, 1e-9);
@@ -100,8 +105,8 @@ TEST(TestConvexTerrain, projectToConvexPolygon) {
   // random point
   {
     const vector3_t point = vector3_t::Random();
-    const vector3_t image = projectToConvex3dPolygon(convexTerrain, point);
-    const vector3_t local_image = positionInTerrainFrameFromPositionInWorld(image, convexTerrain.plane);
+    const vector3_t image = convexTerrain.projectToConvex3dPolygon(point);
+    const vector3_t local_image = plane.getPositionInTerrainFrameFromPositionInWorld(image);
 
     EXPECT_LT(std::abs(local_image.x()), 0.5 + 1e-9);
     EXPECT_LT(std::abs(local_image.y()), 0.5 + 1e-9);

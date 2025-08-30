@@ -7,9 +7,9 @@
 #define __TERRAIN_MODEL_TERRAIN_MODEL__
 
 #include <terrain_model/core/Types.hpp>
-#include <terrain_model/core/SignedDistanceField.h>
-#include <terrain_model/core/TerrainPlane.h>
-#include <terrain_model/core/ConvexTerrain.h>
+#include <terrain_model/core/SignedDistanceField.hpp>
+#include <terrain_model/core/TerrainPlane.hpp>
+#include <terrain_model/core/ConvexTerrain.hpp>
 
 namespace terrain_model
 {
@@ -31,7 +31,7 @@ namespace terrain_model
       /** Penalty function needs to return values >= 0 */ 
       virtual TerrainPlane getLocalTerrainAtPositionInWorldAlongGravity(
         const vector3_t& positionInWorld,
-        std::function<scalar_t(const vector3_t&)>
+        std::function<ocs2::scalar_t(const vector3_t&)>
         penaltyFunction) const = 0;
       
       ConvexTerrain getConvexTerrainAtPositionInWorld(const vector3_t& positionInWorld) const;
@@ -39,7 +39,7 @@ namespace terrain_model
       /** Penalty function needs to return values >= 0 */
       virtual ConvexTerrain getConvexTerrainAtPositionInWorld(
         const vector3_t& positionInWorld,
-        std::function<scalar_t(const vector3_t&)>
+        std::function<ocs2::scalar_t(const vector3_t&)>
         penaltyFunction) const;
       
       /** Returns the signed distance field for this terrain if one is available */

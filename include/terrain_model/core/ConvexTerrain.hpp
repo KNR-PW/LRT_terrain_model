@@ -11,7 +11,7 @@
 #include <utility>
 
 #include <terrain_model/core/Types.hpp>
-#include <terrain_model/core/TerrainPlane.h>
+#include <terrain_model/core/TerrainPlane.hpp>
 
 namespace terrain_model
 {
@@ -79,14 +79,14 @@ namespace terrain_model
     		 * @param [in] currentPointIndex: index of queried point
     		 * @return Queried point
     		 */
-				const vector2_t& getBoundryPoint(size_t currentPointIndex)
+				const vector2_t& getBoundryPoint(size_t currentPointIndex);
 
 				/**
     		 * Get next boundry point with given input index (wrap around safe)
     		 * @param [in] currentPointIndex: index of queried point
     		 * @return Queried point next after queried index
     		 */
-				const vector2_t& getNextBoundryPoint(size_t currentPointIndex)
+				const vector2_t& getNextBoundryPoint(size_t currentPointIndex);
 
 				/**
     		 * Projects a 2D point into boundary of a 2D convex polygon.
@@ -119,3 +119,5 @@ namespace terrain_model
 
     
 } // namespace terrain_model
+
+#endif

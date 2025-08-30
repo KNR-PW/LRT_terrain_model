@@ -31,65 +31,70 @@ namespace terrain_model
     	TerrainPlane(vector3_t positionInWorld, matrix3_t orientationWorldToTerrain);
 		
 			/**
-			 * Getters and setters for position and orientation
+			 * Getters and for position and orientation
 			 */
-			const vector3_t& getPosition();
+			const vector3_t& getPosition() const;
 		
-			vector3_t& getPosition();
-		
-			matrix3_t& getOrientation();
-		
-			const matrix3_t& getOrientation();
+			const matrix3_t& getOrientation() const;
 		
 			/** 
 			 * Returns the surface normal = z-axis of the terrain, 
 			 * the unit vector is represented in the world frame
 			 */
-			vector3_t getSurfaceNormalInWorld();
+			vector3_t getSurfaceNormalInWorld() const;
 		
 			/** Converts a 3D position in world frame to a 3D position in the terrain frame. */
-    	vector3_t getPositionInTerrainFrameFromPositionInWorld(const vector3_t& positionWorld);
+    	vector3_t getPositionInTerrainFrameFromPositionInWorld(
+				const vector3_t& positionWorld) const;
 		
     	/** Converts a 3D position in terrain frame to a 3D position in the world frame. */
-    	vector3_t getPositionInWorldFrameFromPositionInTerrain(const vector3_t& positionInTerrain);
+    	vector3_t getPositionInWorldFrameFromPositionInTerrain(
+				const vector3_t& positionInTerrain) const;
 		
     	/** 
 			 * Returns the orthogonal signed distance between the 
 			 * terrain a 3D point represented in world frame. 
 			 */
-    	scalar_t getTerrainSignedDistanceFromPositionInWorld(const vector3_t& positionWorld);
+    	ocs2::scalar_t getTerrainSignedDistanceFromPositionInWorld(
+				const vector3_t& positionWorld) const;
+			
+			/** Returns the orthogonal projection onto the terrain plane for a 3D position in world.
+			 *  The returned position is in world frame 
+			 */
+			vector3_t projectPositionInWorldOntoPlane(const vector3_t& positionWorld) const;
 		
     	/** 
 			 * Returns the projection along gravity onto the terrain
 			 *  plane for a 2D position in world. The returned position is in world frame 
 			 */
-    	vector3_t getProjectPositionInWorldOntoPlaneAlongGravity(const vector2_t& positionXYWorld);
+    	vector3_t projectPositionInWorldOntoPlaneAlongGravity(
+				const vector2_t& positionXYWorld) const;
 		
     	/** 
 			 * Returns the orthogonal projection onto the terrain 
 			 * plane for a 3D position in world. The returned position is in world frame 
 			 */
-    	vector3_t pgetPojectPositionInWorldOntoPlane(const vector3_t& positionWorld);
+    	vector3_t getPojectPositionInWorldOntoPlane(const vector3_t& positionWorld) const;
 		
     	/** 
 			 * Returns the projection along gravity onto the terrain 
 			 * plane for a 3D position in world. The returned position is in world frame 
 			 */
-  		vector3_t getProjectPositionInWorldOntoPlaneAlongGravity(const vector3_t& positionWorld);
+  		vector3_t projectPositionInWorldOntoPlaneAlongGravity(const vector3_t& positionWorld) const;
 		
     	/**
     	 *  Returns the projection along gravity onto the terrain orientation for a vector represented in world frame
     	 *  This projection is such that the x-y components of the vector remain unchanged.
     	 *  The returned vector is still represented in the world frame.
     	 */
-    	vector3_t getProjectVectorInWorldOntoPlaneAlongGravity(const vector3_t& vectorInWorld);
+    	vector3_t projectVectorInWorldOntoPlaneAlongGravity(const vector3_t& vectorInWorld) const;
 		
 			/**
     	 * Constructs the x-y unit vectors for a given z-axis. The absolute orientation of the x-y vectors is unspecified.
     	 * @param surfaceNormal (z-axis) of the terrain.
     	 * @return 2x3 matrix forming the [x-axis; y-axis] of the terrain
     	 */
-			static Eigen::Matrix<scalar_t, 2, 3> getTangentialBasisFromSurfaceNormal(
+			static Eigen::Matrix<ocs2::scalar_t, 2, 3> getTangentialBasisFromSurfaceNormal(
 				const vector3_t& surfaceNormal);
 			
 			/**
@@ -104,8 +109,6 @@ namespace terrain_model
 
 			vector3_t positionInWorld_;
     	matrix3_t orientationWorldToTerrain_;
-
-
   };
 
 }; // namespace terrain_model

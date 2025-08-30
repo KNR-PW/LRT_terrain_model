@@ -7,6 +7,7 @@
 
 namespace terrain_model 
 {
+  using namespace ocs2;
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
@@ -23,7 +24,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  const vector3_t& TerrainPlane::getPosition()
+  const vector3_t& TerrainPlane::getPosition() const
   {
     return positionInWorld_;
   }
@@ -31,15 +32,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  vector3_t& TerrainPlane::getPosition()
-  {
-    return positionInWorld_;
-  }
-
-  /******************************************************************************************************/
-  /******************************************************************************************************/
-  /******************************************************************************************************/
-	matrix3_t& TerrainPlane::getOrientation()
+	const matrix3_t& TerrainPlane::getOrientation() const
   {
     return orientationWorldToTerrain_;
   }
@@ -47,15 +40,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-	const matrix3_t& TerrainPlane::getOrientation()
-  {
-    return orientationWorldToTerrain_;
-  }
-
-  /******************************************************************************************************/
-  /******************************************************************************************************/
-  /******************************************************************************************************/
-  vector3_t TerrainPlane::getSurfaceNormalInWorld()
+  vector3_t TerrainPlane::getSurfaceNormalInWorld() const
   {
     return orientationWorldToTerrain_.row(2).transpose();
   }
@@ -64,7 +49,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   vector3_t TerrainPlane::getPositionInTerrainFrameFromPositionInWorld(
-    const vector3_t& positionWorld)
+    const vector3_t& positionWorld) const
   {
     return orientationWorldToTerrain_ * (positionWorld - positionInWorld_);
   }
@@ -73,7 +58,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   vector3_t TerrainPlane::getPositionInWorldFrameFromPositionInTerrain(
-    const vector3_t& positionInTerrain);
+    const vector3_t& positionInTerrain) const
   {
     return orientationWorldToTerrain_.transpose() * positionInTerrain + positionInWorld_;
   }
@@ -82,7 +67,7 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   scalar_t TerrainPlane::getTerrainSignedDistanceFromPositionInWorld(
-    const vector3_t& positionWorld)
+    const vector3_t& positionWorld) const
   {
     const vector3_t surfaceNormal = getSurfaceNormalInWorld();
     return surfaceNormal.dot(positionWorld - positionInWorld_);
@@ -91,8 +76,8 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  vector3_t TerrainPlane::getProjectPositionInWorldOntoPlaneAlongGravity(
-    const vector2_t& positionXYWorld)
+  vector3_t TerrainPlane::projectPositionInWorldOntoPlaneAlongGravity(
+    const vector2_t& positionXYWorld) const
   {
     // solve surfaceNormal.dot(projectedPosition - terrainPlane.positionInWorld) = 0
     // Distance = positionWorld.z() - projectedPosition.z()
@@ -106,8 +91,8 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  vector3_t TerrainPlane::getProjectPositionInWorldOntoPlane(
-    const vector3_t& positionWorld)
+  vector3_t TerrainPlane::projectPositionInWorldOntoPlane(
+    const vector3_t& positionWorld) const
   {
     const vector3_t surfaceNormal = getSurfaceNormalInWorld();
     return surfaceNormal.dot(positionInWorld_ - positionWorld) * surfaceNormal + positionWorld;
@@ -116,18 +101,18 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  vector3_t TerrainPlane::getProjectPositionInWorldOntoPlaneAlongGravity(
-    const vector3_t& positionWorld)
+  vector3_t TerrainPlane::projectPositionInWorldOntoPlaneAlongGravity(
+    const vector3_t& positionWorld) const
   {
-    return getProjectPositionInWorldOntoPlaneAlongGravity(
+    return projectPositionInWorldOntoPlaneAlongGravity(
       vector2_t{positionWorld.x(), positionWorld.y()});
   }
 
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
-  vector3_t TerrainPlane::getProjectVectorInWorldOntoPlaneAlongGravity(
-    const vector3_t& vectorInWorld)
+  vector3_t TerrainPlane::projectVectorInWorldOntoPlaneAlongGravity(
+    const vector3_t& vectorInWorld) const
   {
     const vector3_t surfaceNormal = getSurfaceNormalInWorld();
     vector3_t projectedVector = vectorInWorld;
