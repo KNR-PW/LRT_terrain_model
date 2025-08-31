@@ -44,7 +44,6 @@ namespace terrain_model
    * @return terrain plane
    */
   TerrainPlane computeTerrainPlane(const std::vector<vector3_t>& positions); 
-  
 }; // namespace terrain_model
 
 #endif
