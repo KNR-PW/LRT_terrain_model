@@ -37,6 +37,18 @@ namespace terrain_model
 				 */
     		ConvexTerrain(TerrainPlane plane, std::vector<vector2_t> boundary);
 
+				/**
+				 * Get terrain plain
+				 */
+
+				const TerrainPlane& getTerrainPlane();
+
+				/**
+				 * Get terrain boundy points
+				 */
+
+				const std::vector<vector2_t>& getBoundryPoints();
+
 				/** 
 				 * Update terrain plane
 				 * @param [in] newPlane: new terrain plane
