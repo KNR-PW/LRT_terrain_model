@@ -33,7 +33,7 @@ namespace terrain_model
 			/**
 			 * Getters and for position and orientation
 			 */
-			const vector3_t& getPosition() const;
+		  const vector3_t& getPosition() const;
 		
 			const matrix3_t& getOrientation() const;
 		
