@@ -40,63 +40,26 @@ namespace terrain_model
 		  /**
 		   * Get terrain plain
 		   */
-		  const TerrainPlane& getTerrainPlane();
+		  const TerrainPlane& getTerrainPlane() const;
 
 		  /**
 		   * Get terrain boundy points
 		   */
-		  const std::vector<vector2_t>& getBoundryPoints();
-
-			/** 
-			 * Update terrain plane
-			 * @param [in] newPlane: new terrain plane
-			 */
-			void updatePlane(TerrainPlane newPlane);
-
-			/** 
-			 * Update boundry points
-			 * @param [in] getBoundryPoints: new boundry points
-			 */
-			void updateBoundryPoints(std::vector<vector2_t> getBoundryPoints);
-
-			/** 
-			 * Add new boundy points in terrain frame
-			 * @param [in] newPointLocal: new point in terrain frame
-			 */
-			void addLocalBoundryPoint(const vector2_t& newPointLocal);
-
-			/** 
-			 * Add new boundy points in terrain frame
-			 * @param [in] xLocal, yLocal: new point coordinates in terrain frame
-			 */
-			void addLocalBoundryPoint(ocs2::scalar_t xLocal, ocs2::scalar_t yLocal);
-
-			/** 
-			 * Add new boundy points in world frame
-			 * @param [in] newPointWorld: new point in world frame
-			 */
-			void addWorldBoundryPoint(const vector2_t& newPointWorld);
-
-			/** 
-			 * Add new boundy points in world frame
-			 * @param [in] xWorld, yWorld: new point coordinates in world frame
-			 */
-			void addWorldBoundryPoint(ocs2::scalar_t xWorld, ocs2::scalar_t yWorld);
-
+		  const std::vector<vector2_t>& getBoundryPoints() const;
 
 			/**
     	 * Get boundry point with given input index (wrap around safe)
     	 * @param [in] currentPointIndex: index of queried point
     	 * @return Queried point
     	 */
-			const vector2_t& getBoundryPoint(size_t currentPointIndex);
+			const vector2_t& getBoundryPoint(size_t currentPointIndex) const;
 
 			/**
     	 * Get next boundry point with given input index (wrap around safe)
     	 * @param [in] currentPointIndex: index of queried point
     	 * @return Queried point next after queried index
     	 */
-			const vector2_t& getNextBoundryPoint(size_t currentPointIndex);
+			const vector2_t& getNextBoundryPoint(size_t currentPointIndex) const;
 
 			/**
     	 * Projects a 2D point into boundary of a 2D convex polygon.
@@ -105,7 +68,7 @@ namespace terrain_model
     	 * @return A pair of signed squared distance to the boundary (negative inside, positive outside) and the projected point.
     	 */
     	std::pair<ocs2::scalar_t, vector2_t> projectToConvex2dPolygonBoundary(
-				const vector2_t& queryPoint);
+				const vector2_t& queryPoint) const;
 
     	/**
     	 * Projects a 3D point onto a 3D convex polygon.
@@ -113,7 +76,7 @@ namespace terrain_model
     	 * @param [in] queryPoint: The 3D point.
     	 * @return The projected point.
     	 */
-    	vector3_t projectToConvex3dPolygon(const vector3_t& queryPoint);
+    	vector3_t projectToConvex3dPolygon(const vector3_t& queryPoint) const;
 
 		private:
 
