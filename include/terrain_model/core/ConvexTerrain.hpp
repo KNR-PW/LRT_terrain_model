@@ -6,7 +6,6 @@
 #ifndef __CONVEX_TERRAIN_TERRAIN_MODEL__
 #define __CONVEX_TERRAIN_TERRAIN_MODEL__
 
-
 #include <limits>
 #include <utility>
 
@@ -25,50 +24,49 @@ namespace terrain_model
   class ConvexTerrain
   {
 
-		public:
-
-		  /** 
-		   * Default constructor
-		   */
+	  public: 
+	    /** 
+	     * Default constructor
+	     */
       ConvexTerrain();
-			
-		  /** 
-		   * Itemwise constructor
-		   */
-      ConvexTerrain(TerrainPlane plane, std::vector<vector2_t> boundary);
+    
+	    /** 
+	     * Itemwise constructor
+	     */
+      ConvexTerrain(TerrainPlane plane, std::vector<vector2_t> boundary); 
 
-		  /**
-		   * Get terrain plain
-		   */
-		  const TerrainPlane& getTerrainPlane() const;
+	    /**
+	     * Get terrain plain
+	     */
+	    const TerrainPlane& getTerrainPlane() const;  
 
-		  /**
-		   * Get terrain boundy points
-		   */
-		  const std::vector<vector2_t>& getBoundryPoints() const;
+	    /**
+	     * Get terrain boundy points
+	     */
+	    const std::vector<vector2_t>& getBoundryPoints() const; 
 
-			/**
+	  	/**
     	 * Get boundry point with given input index (wrap around safe)
     	 * @param [in] currentPointIndex: index of queried point
     	 * @return Queried point
     	 */
-			const vector2_t& getBoundryPoint(size_t currentPointIndex) const;
+	  	const vector2_t& getBoundryPoint(size_t currentPointIndex) const; 
 
-			/**
+	  	/**
     	 * Get next boundry point with given input index (wrap around safe)
     	 * @param [in] currentPointIndex: index of queried point
     	 * @return Queried point next after queried index
     	 */
-			const vector2_t& getNextBoundryPoint(size_t currentPointIndex) const;
+	  	const vector2_t& getNextBoundryPoint(size_t currentPointIndex) const; 
 
-			/**
+	  	/**
     	 * Projects a 2D point into boundary of a 2D convex polygon.
     	 * @param [in] boundary: The vertices of the polygon in clockwise or counter-clockwise order.
     	 * @param [in] queryPoint: The 2D point.
     	 * @return A pair of signed squared distance to the boundary (negative inside, positive outside) and the projected point.
     	 */
     	std::pair<ocs2::scalar_t, vector2_t> projectToConvex2dPolygonBoundary(
-				const vector2_t& queryPoint) const;
+	  		const vector2_t& queryPoint) const; 
 
     	/**
     	 * Projects a 3D point onto a 3D convex polygon.
@@ -76,17 +74,17 @@ namespace terrain_model
     	 * @param [in] queryPoint: The 3D point.
     	 * @return The projected point.
     	 */
-    	vector3_t projectToConvex3dPolygon(const vector3_t& queryPoint) const;
+    	vector3_t projectToConvex3dPolygon(const vector3_t& queryPoint) const;  
 
-		private:
+	  private:  
 
       /** Plane coordinate defining the origin of the terrain */ 
-      TerrainPlane plane_;
-
+      TerrainPlane plane_;  
+      
       /** 
-			 * Boundary points x-y in the terrain frame, points are order counter-clockwise.
-			 *  The last point is connected to the first point
-			 */
+	  	 * Boundary points x-y in the terrain frame, points are order counter-clockwise.
+	  	 *  The last point is connected to the first point
+	  	 */
       std::vector<vector2_t> boundary_;
   };  
 }; // namespace terrain_model
