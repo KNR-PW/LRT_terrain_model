@@ -28,11 +28,10 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   ConvexTerrain TerrainModel::getConvexTerrainAtPositionInWorld(const vector3_t& positionInWorld,
-    std::function<scalar_t(const vector3_t&)>
-    penaltyFunction) const
+    std::function<scalar_t(const vector3_t&)> penaltyFunction) const
   {
-    return {getLocalTerrainAtPositionInWorldAlongGravity(positionInWorld,
-      std::move(penaltyFunction)), {}};
+    return ConvexTerrain(getLocalTerrainAtPositionInWorldAlongGravity(positionInWorld,
+      std::move(penaltyFunction)), {});
   }
 
   /******************************************************************************************************/
