@@ -69,4 +69,12 @@ namespace terrain_model
     const auto projection2 = terrainPlane_.projectPositionInWorldOntoPlaneAlongGravity(position2InWorld);
     return {{0.0, projection1.z()}, {0.5, 0.5 * (projection1.z() + projection2.z())}, {1.0, projection2.z()}};
   }
+
+  /******************************************************************************************************/
+  /******************************************************************************************************/
+  /******************************************************************************************************/
+  vector3_t PlanarTerrainModel::getSmoothedPositon(const vector2_t& positionXYInWorld) const
+  {
+    return terrainPlane_.projectPositionInWorldOntoPlaneAlongGravity(positionXYInWorld);
+  }
 } // namespace terrain_model

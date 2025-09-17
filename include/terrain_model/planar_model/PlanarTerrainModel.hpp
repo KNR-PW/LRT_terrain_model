@@ -38,6 +38,8 @@ namespace terrain_model
 
       const SignedDistanceField* getSignedDistanceField() const override;
 
+      vector3_t getSmoothedPositon(const vector2_t& positionXYInWorld) const override;
+
     private:
       TerrainPlane terrainPlane_;
       PlanarSignedDistanceField sdf_;

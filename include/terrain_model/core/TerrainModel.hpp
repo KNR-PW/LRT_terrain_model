@@ -56,6 +56,12 @@ namespace terrain_model
       virtual std::vector<vector2_t> getHeightProfileAlongLine(
         const vector3_t& position1InWorld,
         const vector3_t& position2InWorld) const = 0;
+      
+      /**
+       * Return vector with the same X and Y values but new "smoothed" height 
+       * value in world frame.
+       */
+      virtual vector3_t getSmoothedPositon(const vector2_t& positionXYInWorld) const = 0;
   };
 }; // namespace terrain_model
 
