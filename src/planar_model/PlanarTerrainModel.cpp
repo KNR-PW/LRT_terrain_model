@@ -26,7 +26,7 @@ namespace terrain_model
     // Project point to plane to find new center, orientation stays the same
     return TerrainPlane(
       terrainPlane_.projectPositionInWorldOntoPlaneAlongGravity(positionInWorld),
-      terrainPlane_.getOrientation());
+      terrainPlane_.getOrientationToTerrain());
   }
 
   /******************************************************************************************************/

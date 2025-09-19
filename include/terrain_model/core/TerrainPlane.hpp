@@ -31,11 +31,14 @@ namespace terrain_model
       TerrainPlane(vector3_t positionInWorld, matrix3_t orientationWorldToTerrain);
   
       /**
-       * Getters and for position and orientation
+       * Getters and for position in world frame
        */
       const vector3_t& getPosition() const;
-  
-      const matrix3_t& getOrientation() const;
+
+      /**
+       * Getters and for orientation: world -> terrain 
+       */
+      const matrix3_t& getOrientationToTerrain() const;
   
       /** 
        * Returns the surface normal = z-axis of the terrain, 
