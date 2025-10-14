@@ -42,6 +42,7 @@ add_library(${PROJECT_NAME}
 
   src/planar_model/PlanarSignedDistanceField.cpp
   src/planar_model/PlanarTerrainModel.cpp
+  src/planar_model/PlanarFactoryFunctions.cpp
   
 )
 
@@ -101,6 +102,10 @@ if(BUILD_TESTING)
   ament_add_gtest(test_${PROJECT_NAME}_convexTerrain test/testConvexTerrain.cpp)
   ament_target_dependencies(test_${PROJECT_NAME}_convexTerrain ${dependencies})
   target_link_libraries(test_${PROJECT_NAME}_convexTerrain ${PROJECT_NAME})
+
+  ament_add_gtest(test_${PROJECT_NAME}_planarFactory test/testPlanarFactoryFunctions.cpp)
+  ament_target_dependencies(test_${PROJECT_NAME}_planarFactory ${dependencies})
+  target_link_libraries(test_${PROJECT_NAME}_planarFactory ${PROJECT_NAME})
 
 endif()
 

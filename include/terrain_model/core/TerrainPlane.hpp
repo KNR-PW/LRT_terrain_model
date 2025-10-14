@@ -74,12 +74,6 @@ namespace terrain_model
         const vector2_t& positionXYWorld) const;
       
       /** 
-       * Returns the orthogonal projection onto the terrain 
-       * plane for a 3D position in world. The returned position is in world frame 
-       */
-      vector3_t getPojectPositionInWorldOntoPlane(const vector3_t& positionWorld) const;
-      
-      /** 
        * Returns the projection along gravity onto the terrain 
        * plane for a 3D position in world. The returned position is in world frame 
        */

@@ -25,6 +25,8 @@ namespace terrain_model
   TerrainPlane computeTerrainPlane(const std::vector<vector3_t>& positions)
   {
     size_t pointNum = positions.size();
+    matrix3_t rotationMatrix;
+    vector3_t meanPosition = vector3_t::Zero();
 
     if(pointNum < 3)
     {
@@ -39,6 +41,12 @@ namespace terrain_model
 
       vector3_t normalToPlane = (vectorOnPlane1).cross(vectorOnPlane2);
 
+      for(const auto& position: positions)
+      {
+        meanPosition += position;
+      }
+      meanPosition /= 3;
+
       normalToPlane.normalize();
       vectorOnPlane1.normalize();
 
@@ -46,8 +54,7 @@ namespace terrain_model
        *  Y axis will be  normalToPlane x vectorOnPlane1
        *  Z asix is normalToPlane */
 
-      matrix3_t rotationMatrix;
-      rotationMatrix.col(0) = normalToPlane.cross(vectorOnPlane1);
+      rotationMatrix.col(1) = normalToPlane.cross(vectorOnPlane1);
 
       if(normalToPlane.z() < 0)
       {
@@ -59,9 +66,6 @@ namespace terrain_model
         rotationMatrix.col(0) = vectorOnPlane1;
         rotationMatrix.col(2) = normalToPlane;
       }
-
-      return TerrainPlane(positions[0], rotationMatrix);
-      
     }
     else
     {
@@ -70,15 +74,14 @@ namespace terrain_model
 
       for(size_t i = 0; i < pointNum; ++i)
       {
-        A.block<1, 2>(i, 0) = positions[i].block<2, 1>(i, 0).transpose();
+        A.block<1, 2>(i, 0) = positions[i].block<2, 1>(0, 0).transpose();
         b(i) = positions[i].z();
       }
 
-      ocs2::matrix_t AtA = A.transpose() * A;
-      vector3_t result = AtA.ldlt().solve(A * b);
-      vector3_t normalToSurface{-result.x(), -result.y(), 1};
+      const vector3_t result = (A.transpose() * A).ldlt().solve(A.transpose() * b);
+      vector3_t normalToPlane{-result.x(), -result.y(), 1};
 
-      normalToSurface.normalize();
+      normalToPlane.normalize();
 
       /** Get random vector on plane from plane equation */
       vector3_t pointOnPlane1{positions[0].x(), positions[0].y(), 
@@ -90,13 +93,17 @@ namespace terrain_model
       vector3_t vectorOnPlane = pointOnPlane1 - pointOnPlane2;
       vectorOnPlane.normalize();
 
-      matrix3_t rotationMatrix;
+      rotationMatrix;
       rotationMatrix.col(0) = vectorOnPlane;
-      rotationMatrix.col(0) = normalToSurface.cross(vectorOnPlane);
-      rotationMatrix.col(0) = normalToSurface;
+      rotationMatrix.col(1) = normalToPlane.cross(vectorOnPlane);
+      rotationMatrix.col(2) = normalToPlane;
 
-      return TerrainPlane(pointOnPlane1, rotationMatrix);
-
+      for(const auto& position: positions)
+      {
+        meanPosition += position;
+      }
+      meanPosition /= positions.size();
     }
+    return TerrainPlane(meanPosition, rotationMatrix.transpose());
   }
 } // namespace terrain_model
