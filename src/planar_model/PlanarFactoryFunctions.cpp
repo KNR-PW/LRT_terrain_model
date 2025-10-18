@@ -77,8 +77,9 @@ namespace terrain_model
         A.block<1, 2>(i, 0) = positions[i].block<2, 1>(0, 0).transpose();
         b(i) = positions[i].z();
       }
-
-      const vector3_t result = (A.transpose() * A).ldlt().solve(A.transpose() * b);
+      const matrix3_t AtA = A.transpose().lazyProduct(A);
+      const vector3_t Atb = A.transpose().lazyProduct(b);
+      const vector3_t result = AtA.inverse() * Atb;
       vector3_t normalToPlane{-result.x(), -result.y(), 1};
 
       normalToPlane.normalize();
