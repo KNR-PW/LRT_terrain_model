@@ -63,6 +63,21 @@ TEST(TestTerrainPlane, tangentialBasisFromSurfaceNormalUnitX) {
   ASSERT_TRUE(tangentialBasis.row(1).transpose().isApprox(vector3_t::UnitY()));
 }
 
+TEST(TestTerrainPlane, changeHeadingVector) {
+  auto randomPlane = getRandomTerrain();
+  const vector3_t surfaceNormal = randomPlane.getSurfaceNormalInWorld();
+  const vector3_t newHeadingVector = vector3_t::UnitX();
+  const vector3_t projectedHeading = randomPlane.projectVectorInWorldOntoPlaneAlongGravity(newHeadingVector).normalized();
+  randomPlane.changeHeadingVector(newHeadingVector);
+
+  const auto newRotation = randomPlane.getOrientationToTerrain().transpose();
+
+  const double tol = 1e-9;
+  ASSERT_TRUE(newRotation.col(0).isApprox(projectedHeading, tol));
+  ASSERT_TRUE(newRotation.col(1).isApprox(surfaceNormal.cross(projectedHeading), tol));
+  ASSERT_TRUE(newRotation.col(2).isApprox(surfaceNormal, tol));
+}
+
 TEST(TestTerrainPlane, orientationWorldToTerrainFromSurfaceNormalInWorld) {
   const vector3_t surfaceNormal = vector3_t::Random().normalized();
 

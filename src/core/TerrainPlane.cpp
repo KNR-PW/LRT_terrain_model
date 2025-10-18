@@ -129,6 +129,19 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
+  void TerrainPlane::changeHeadingVector(const vector3_t headingVectorInWorld)
+  {
+    const vector3_t normalPlane = getSurfaceNormalInWorld();
+    vector3_t newXAxis = projectVectorInWorldOntoPlaneAlongGravity(headingVectorInWorld).normalized();
+    vector3_t newYAxis = normalPlane.cross(newXAxis);
+
+    orientationWorldToTerrain_.row(0).transpose() = newXAxis;
+    orientationWorldToTerrain_.row(1).transpose() = newYAxis;
+  }
+
+  /******************************************************************************************************/
+  /******************************************************************************************************/
+  /******************************************************************************************************/
   Eigen::Matrix<scalar_t, 2, 3> TerrainPlane::getTangentialBasisFromSurfaceNormal(
     const vector3_t& surfaceNormal)
   {

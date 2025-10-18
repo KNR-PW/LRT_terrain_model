@@ -87,6 +87,11 @@ namespace terrain_model
       vector3_t projectVectorInWorldOntoPlaneAlongGravity(const vector3_t& vectorInWorld) const;
       
       /**
+       * Change heading vector (X axis) of plane rotation matrix. It is first mapped onto plane,
+       * then Y axis is calculated with right hand rule.
+       */
+      void changeHeadingVector(const vector3_t headingVectorInWorld);
+      /**
        * Constructs the x-y unit vectors for a given z-axis. The absolute orientation of the x-y vectors is unspecified.
        * @param surfaceNormal (z-axis) of the terrain.
        * @return 2x3 matrix forming the [x-axis; y-axis] of the terrain
