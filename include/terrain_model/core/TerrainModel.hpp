@@ -19,10 +19,9 @@ namespace terrain_model
   class TerrainModel
   {
     public:
+    
       TerrainModel() = default;
       virtual ~TerrainModel() = default;
-      TerrainModel(const TerrainModel&) = delete;
-      TerrainModel& operator=(const TerrainModel&) = delete;
 
       /** Returns a linear approximation of the terrain at the query point projected along gravity onto the terrain  */
       TerrainPlane getLocalTerrainAtPositionInWorldAlongGravity(
