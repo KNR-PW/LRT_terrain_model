@@ -22,15 +22,15 @@ namespace terrain_model
 
       explicit PlanarSignedDistanceField(TerrainPlane terrainPlane);
       ~PlanarSignedDistanceField() override = default;
+      
       PlanarSignedDistanceField* clone() const override;
       
       ocs2::scalar_t value(const vector3_t& position) const override;
+
       vector3_t derivative(const vector3_t& position) const override;
+
       std::pair<ocs2::scalar_t, vector3_t> valueAndDerivative(
         const vector3_t& position) const override;
-
-    protected:
-      PlanarSignedDistanceField(const PlanarSignedDistanceField& other);
 
     private:
       TerrainPlane terrainPlane_;

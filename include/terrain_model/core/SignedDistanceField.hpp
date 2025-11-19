@@ -18,8 +18,7 @@ namespace terrain_model
     public:
       SignedDistanceField() = default;
       virtual ~SignedDistanceField() = default;
-      SignedDistanceField(const SignedDistanceField&) = delete;
-      SignedDistanceField& operator=(const SignedDistanceField&) = delete;
+      
       virtual SignedDistanceField* clone() const = 0;
 
       /** Get closest distance from queried position to terrain model 

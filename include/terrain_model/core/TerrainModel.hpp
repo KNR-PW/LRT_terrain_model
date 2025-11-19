@@ -23,6 +23,8 @@ namespace terrain_model
       TerrainModel() = default;
       virtual ~TerrainModel() = default;
 
+      virtual TerrainModel* clone() const = 0;
+
       /** Returns a linear approximation of the terrain at the query point projected along gravity onto the terrain  */
       TerrainPlane getLocalTerrainAtPositionInWorldAlongGravity(
         const vector3_t& positionInWorld) const;

@@ -21,7 +21,10 @@ namespace terrain_model
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
       explicit PlanarTerrainModel(TerrainPlane terrainPlane);
+
       ~PlanarTerrainModel() override = default;
+
+      PlanarTerrainModel* clone() const override;
 
       TerrainPlane getLocalTerrainAtPositionInWorldAlongGravity(
         const vector3_t& positionInWorld,
@@ -41,6 +44,7 @@ namespace terrain_model
       vector3_t getSmoothedPositon(const vector2_t& positionXYInWorld) const override;
 
     private:
+
       TerrainPlane terrainPlane_;
       PlanarSignedDistanceField sdf_;
   };
