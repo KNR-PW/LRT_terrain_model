@@ -16,7 +16,7 @@ namespace terrain_model
 {
 
   /**
-   * Terrain defined ass plane with x-y bundy points
+   * Terrain defined as plane with x-y bundy points
    * - The terrain frame is located at positionInWorld.
    * - The surface normal points in positive z direction in the terrain frame.
    * - Boundry points are defined in the terrain frame

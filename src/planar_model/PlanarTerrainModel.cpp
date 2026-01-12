@@ -67,6 +67,19 @@ namespace terrain_model
   /******************************************************************************************************/
   /******************************************************************************************************/
   /******************************************************************************************************/
+  ConvexTerrain PlanarTerrainModel::getConvexTerrainAtPositionInWorld(
+    const vector3_t& positionInWorld,
+    std::function<ocs2::scalar_t(const vector3_t&)>
+    penaltyFunction) const
+  {
+    // As planar terrain is safe everywhere, convex terrain will be big triangle lmao 
+    std::vector<vector2_t> boundryPoints = {{-100, -100}, {100, -100}, {0, 100}};
+    return ConvexTerrain(terrainPlane_, boundryPoints);
+  }
+
+  /******************************************************************************************************/
+  /******************************************************************************************************/
+  /******************************************************************************************************/
   std::vector<vector2_t> PlanarTerrainModel::getHeightProfileAlongLine(
     const vector3_t &position1InWorld,
     const vector3_t &position2InWorld) const 

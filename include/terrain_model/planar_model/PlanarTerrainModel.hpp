@@ -39,6 +39,11 @@ namespace terrain_model
         const vector3_t& position1InWorld,
         const vector3_t& position2InWorld) const override;
 
+      ConvexTerrain getConvexTerrainAtPositionInWorld(
+        const vector3_t& positionInWorld,
+        std::function<ocs2::scalar_t(const vector3_t&)>
+        penaltyFunction) const override;
+
       const SignedDistanceField* getSignedDistanceField() const override;
 
       vector3_t getSmoothedPositon(const vector2_t& positionXYInWorld) const override;
