@@ -74,7 +74,9 @@ namespace terrain_model
   {
     // As planar terrain is safe everywhere, convex terrain will be big triangle lmao 
     std::vector<vector2_t> boundryPoints = {{-100, -100}, {100, -100}, {0, 100}};
-    return ConvexTerrain(terrainPlane_, boundryPoints);
+    const vector3_t positionOnTerrain = terrainPlane_.projectPositionInWorldOntoPlaneAlongGravity(positionInWorld);
+    TerrainPlane newPlane(positionOnTerrain, terrainPlane_.getOrientationToTerrain());
+    return ConvexTerrain(newPlane, boundryPoints);
   }
 
   /******************************************************************************************************/
